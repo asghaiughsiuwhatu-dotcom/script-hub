@@ -197,5 +197,30 @@ local gravitySlider = Sliders1:CreateSlider({
     end)(),
 }, "INDEX")
 
+local hipHeightSlider = Sliders1:CreateSlider({
+    Name = "HipHeight",
+    Icon = NebulaIcons:GetIcon('arrows-vertical', 'Lucide'),
+    Range = {2, 10},  -- default Humanoid HipHeight is usually around 2
+    Increment = 0.1,
+    Callback = (function()
+        local player = game.Players.LocalPlayer
+        local currentHipHeight = 2  -- default value
+
+        -- Continuously apply HipHeight if humanoid exists
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if player.Character and player.Character:FindFirstChild("Humanoid") then
+                local humanoid = player.Character.Humanoid
+                if humanoid.HipHeight ~= currentHipHeight then
+                    humanoid.HipHeight = currentHipHeight
+                end
+            end
+        end)
+
+        return function(Value)
+            currentHipHeight = Value
+        end
+    end)(),
+}, "INDEX")
+
 
 
